@@ -67,23 +67,6 @@ d3.bullet = function() {
           .attr("width", w1)
           .attr("height", extentY);
 
-      // Update the measure rects.
-      var measure = wrap.selectAll("rect.measure")
-          .data(measurez);
-
-      measure.enter().append("rect")
-          .attr("class", function(d, i) { return "measure s" + i; })
-          .attr("width", w0)
-          .attr("height", extentY / 3)
-          .attr("x", reverse ? x0 : 0)
-          .attr("y", extentY / 3);
-
-      d3.transition(measure)
-          .attr("width", w1)
-          .attr("height", extentY / 3)
-          .attr("x", reverse ? x1 : 0)
-          .attr("y", extentY / 3);
-
       // Update the marker lines.
       var marker = wrap.selectAll("line.marker")
           .data(markerz);
@@ -100,6 +83,23 @@ d3.bullet = function() {
           .attr("x2", x1)
           .attr("y1", extentY / 6)
           .attr("y2", extentY * 5 / 6);
+
+      // Update the measure rects.
+      var measure = wrap.selectAll("rect.measure")
+          .data(measurez);
+
+      measure.enter().append("rect")
+          .attr("class", function(d, i) { return "measure s"+i; })
+          .attr("width", w0)
+          .attr("height", extentY / 3)
+          .attr("x", reverse ? x0 : 0)
+          .attr("y", extentY / 3);
+
+      d3.transition(measure)
+          .attr("width", w1)
+          .attr("height", extentY / 3)
+          .attr("x", reverse ? x1 : 0)
+          .attr("y", extentY / 3);
 
       var axis = g.selectAll("g.axis").data([0]);
       axis.enter().append("g").attr("class", "axis");
