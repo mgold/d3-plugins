@@ -17,12 +17,16 @@ d3.bullet = function() {
   // For each small multiple…
   function bullet(g) {
     g.each(function(d, i) {
-      var rangez = ranges.call(this, d, i).slice().sort(d3.descending),
-          markerz = markers.call(this, d, i).slice().sort(d3.descending),
-          measurez = measures.call(this, d, i).slice().sort(d3.descending),
+      var rangez = typeof ranges === "function" ? ranges.call(this, d, i) : ranges,
+          markerz = typeof markers === "function" ? markers.call(this, d, i) : markers,
+          measurez = typeof measures === "function" ? measures.call(this, d, i) : measures,
           g = d3.select(this),
           extentX,
           extentY;
+
+      rangez = rangez.slice().sort(d3.descending);
+      markerz = markerz.slice();
+      measurez = measurez.slice();
 
       var wrap = g.select("g.wrap");
       if (wrap.empty()) wrap = g.append("g").attr("class", "wrap");
@@ -37,7 +41,7 @@ d3.bullet = function() {
 
       // Compute the new x-scale.
       var x1 = d3.scale.linear()
-          .domain([0, Math.max(rangez[0], markerz[0], measurez[0])])
+          .domain([0, Math.max(rangez[0], d3.max(markerz), d3.max(measurez))])
           .range(reverse ? [extentX, 0] : [0, extentX]);
 
       // Retrieve the old x-scale, if this is an update.
@@ -90,6 +94,7 @@ d3.bullet = function() {
 
       measure.enter().append("rect")
           .attr("class", function(d, i) { return "measure s"+i; })
+          .sort(d3.descending)
           .attr("width", w0)
           .attr("height", extentY / 3)
           .attr("x", reverse ? x0 : 0)
