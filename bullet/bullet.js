@@ -57,7 +57,7 @@ d3.bullet = function() {
           .data(rangez);
 
       range.enter().append("rect")
-          .attr("class", function(d, i) { return "range s" + i; })
+          .attr("class", function(d, i) { return "range s"+i+" t"+range.size(); })
           .attr("width", w0)
           .attr("height", extentY)
           .attr("x", reverse ? x0 : 0)
@@ -72,7 +72,7 @@ d3.bullet = function() {
           .data(markerz);
 
       marker.enter().append("line")
-          .attr("class", "marker")
+          .attr("class", function(d, i) { return "marker s"+i; })
           .attr("x1", x0)
           .attr("x2", x0)
           .attr("y1", extentY / 6)
