@@ -7,9 +7,9 @@ d3.bullet = function() {
   var orient = "left",
       reverse = false,
       vertical = false,
-      ranges = bulletRanges,
-      markers = bulletMarkers,
-      measures = bulletMeasures,
+      ranges = function(d){return d.ranges},
+      markers = function(d){return d.markers},
+      measures = function(d){return d.measures},
       width = 380,
       height = 30,
       xAxis = d3.svg.axis();
@@ -32,7 +32,7 @@ d3.bullet = function() {
         wrap.attr("transform", "rotate(90)translate(0," + -width + ")");
       } else {
         extentX = width, extentY = height;
-        wrap.attr("transform", "translate(0)");
+        wrap.attr("transform", null);
       }
 
       // Compute the new x-scale.
@@ -153,18 +153,6 @@ d3.bullet = function() {
 
   return d3.rebind(bullet, xAxis, "tickFormat");
 };
-
-function bulletRanges(d) {
-  return d.ranges;
-}
-
-function bulletMarkers(d) {
-  return d.markers;
-}
-
-function bulletMeasures(d) {
-  return d.measures;
-}
 
 function bulletWidth(x) {
   var x0 = x(0);
